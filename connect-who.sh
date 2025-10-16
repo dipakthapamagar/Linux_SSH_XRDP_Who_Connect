@@ -25,4 +25,9 @@ w -h --pids | grep 'sshd' | awk '{split($7, pids, "/"); print $1, $2, pids[1]}' 
     printf "${_printf}" "${pid}" ${user} "ssh" "${status} from ${GREEN}${ip}${ENDCOLOR}"
 done
 
-echo ""
+if output=$(ss -ep 2>/dev/null | grep ms-wbt-server | awk '{print $6}' | awk -F '[:\\]]' '{print $4}'); then
+        if [ -n "${output}" ]; then
+                printf "\n${YELLOW}RDP connection from:${ENDCOLOR}\n"
+                printf "${GREEN}${output}${ENDCOLOR}"
+        fi
+fi
